@@ -1,6 +1,6 @@
 name: 'workflow-time' 
 outputs:
-  duration:
+  result:
     value: ${{ steps.duration.outputs.result }}
 runs:
   using: 'composite'
