@@ -1,7 +1,15 @@
-name: 'workflow-time' 
+name: 'workflow-time'
+
+inputs:
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
+
 outputs:
   result:
     value: ${{ steps.duration.outputs.result }}
+
 runs:
   using: 'composite'
   steps:
@@ -10,6 +18,7 @@ runs:
       id: duration
       if: ${{ github.event_name != 'pull_request' }}
       with:
+        github-token: ${{ github.event.inputs.github-token || inputs.github-token }}
         script: |
           const currentTime = new Date().getTime();
           const currentRun = await github.rest.actions.getWorkflowRun({
